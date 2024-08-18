@@ -1,0 +1,19 @@
+{
+    "overrides": [
+        {
+            "files": [
+                "index.html",
+                "src/**/*.js",
+                "src/**/*.ts",
+                "src/**/*.vue"
+            ],
+            "options": {
+                "arrowParens": "always",
+                "bracketSpacing": true,
+                "printWidth": 80,
+                "semi": false,
+                "trailingComma": "all"
+            }
+        }
+    ]
+}
