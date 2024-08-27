@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import UserState from "./components/UserState.vue"
-import {
-  House,
-  Coin,
-  Grid,
-  Histogram,
-  Timer,
-  Plus,
-  DCaret,
-  Picture,
-} from "@element-plus/icons-vue"
+import MMenu from "./components/MMenu.vue"
+import { Plus, DCaret, Picture } from "@element-plus/icons-vue"
 import { Item } from "./models/item"
 import draggableComponent from "vuedraggable"
 import { ref } from "vue"
@@ -58,44 +50,7 @@ const items = ref<Item[]>([
     <el-container style="height: calc(100vh - 64px)">
       <el-aside width="200px">
         <el-scrollbar>
-          <el-menu>
-            <el-menu-item>
-              <el-icon class="menu-icon-wrapper"
-                ><House class="icon"
-              /></el-icon>
-              <template #title>
-                <span>Home</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item>
-              <el-icon class="menu-icon-wrapper"><Coin class="icon" /></el-icon>
-              <template #title>
-                <span>Accounts</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item>
-              <el-icon class="menu-icon-wrapper"><Grid class="icon" /></el-icon>
-              <template #title>
-                <span>Categories</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item>
-              <el-icon class="menu-icon-wrapper"
-                ><Histogram class="icon"
-              /></el-icon>
-              <template #title>
-                <span>Reports</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item>
-              <el-icon class="menu-icon-wrapper"
-                ><Timer class="icon"
-              /></el-icon>
-              <template #title>
-                <span>Routines</span>
-              </template>
-            </el-menu-item>
-          </el-menu>
+          <m-menu></m-menu>
         </el-scrollbar>
       </el-aside>
       <el-main>

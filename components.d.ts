@@ -23,10 +23,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
-    Header: typeof import('./src/components/Header.vue')['default']
-    MHeader: typeof import('./src/components/MHeader.vue')['default']
-    Test: typeof import('./src/components/Test.vue')['default']
-    TestMe: typeof import('./src/components/TestMe.vue')['default']
+    MMenu: typeof import('./src/components/MMenu.vue')['default']
     UserState: typeof import('./src/components/UserState.vue')['default']
   }
 }
