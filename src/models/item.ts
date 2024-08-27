@@ -2,8 +2,8 @@ export interface Item {
   id: number
   date: Date
   amount: number
-  category_id: number
-  account_id: number
+  categoryId: number
+  accountId: number
   name: string
   description: string
 }
