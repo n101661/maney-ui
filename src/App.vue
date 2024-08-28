@@ -2,39 +2,37 @@
 import UserState from "./components/UserState.vue"
 import MMenu from "./components/MMenu.vue"
 import MDraggableList from "./components/MDraggableList.vue"
+import MItemDialog from "./components/MItemDialog.vue"
+import { addItem, listItems } from "./client/mock"
 import { Plus } from "@element-plus/icons-vue"
 import { Item } from "./models/item"
-import { ref } from "vue"
+import { ref, watchEffect } from "vue"
 
-const items = ref<Item[]>([
-  {
-    id: 0,
-    date: new Date("2024-08-24"),
-    amount: 10,
-    categoryId: 0,
-    accountId: 0,
-    name: "apple",
-    description: "this is apple item.",
-  },
-  {
-    id: 1,
-    date: new Date("2024-08-24"),
-    amount: 20,
-    categoryId: 0,
-    accountId: 0,
-    name: "banana",
-    description: "this is banana item.",
-  },
-  {
-    id: 2,
-    date: new Date("2024-08-24"),
-    amount: 40,
-    categoryId: 0,
-    accountId: 0,
-    name: "chocolate",
-    description: "this is chocolate item.",
-  },
-])
+const dialogVisibility = ref(false)
+const currentDate = ref(new Date())
+const items = ref<Item[]>([])
+
+watchEffect(async () => {
+  await refreshList(currentDate.value)
+})
+
+function showDialog(): void {
+  dialogVisibility.value = true
+}
+
+async function submitForm(item: Item): Promise<void> {
+  await addItem(item)
+  await refreshList(currentDate.value)
+
+  ElMessage({
+    message: "Successful",
+    type: "success",
+  })
+}
+
+async function refreshList(date: Date): Promise<void> {
+  items.value = await listItems(date)
+}
 </script>
 
 <template>
@@ -55,8 +53,12 @@ const items = ref<Item[]>([
       </el-aside>
       <el-main>
         <div class="main-header">
-          <el-date-picker type="date" placeholder="yyyy-mm-dd"></el-date-picker>
-          <el-button :icon="Plus">Add</el-button>
+          <el-date-picker
+            v-model="currentDate"
+            type="date"
+            placeholder="yyyy-mm-dd"
+          ></el-date-picker>
+          <el-button :icon="Plus" @click="showDialog">Add</el-button>
         </div>
         <div class="item-list">
           <el-scrollbar>
@@ -66,6 +68,8 @@ const items = ref<Item[]>([
       </el-main>
     </el-container>
   </el-container>
+
+  <m-item-dialog v-model="dialogVisibility" @submit="submitForm" />
 </template>
 
 <style scoped>
