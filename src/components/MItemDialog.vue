@@ -16,7 +16,7 @@
         />
       </el-form-item>
       <el-form-item label="Amount" prop="amount" inputmode="decimal">
-        <el-input v-model="item.amount" clearable />
+        <el-input v-model="item.amount" clearable @change="maybeParseFloat" />
       </el-form-item>
       <el-form-item label="Category" prop="categoryId">
         <el-select
@@ -128,7 +128,7 @@ const rules: FormRules<Item> = {
     message: "Please enter a positive amount",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = parseFloat(value)
+      const d = Number(value)
       return isNaN(d) ? false : d > 0
     },
   },
@@ -138,7 +138,7 @@ const rules: FormRules<Item> = {
     message: "Please select a category",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = parseFloat(value)
+      const d = Number(value)
       return isNaN(d) ? false : d > 0
     },
   },
@@ -148,7 +148,7 @@ const rules: FormRules<Item> = {
     message: "Please select an account",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = parseFloat(value)
+      const d = Number(value)
       return isNaN(d) ? false : d > 0
     },
   },
@@ -184,6 +184,13 @@ function handleCancel(): void {
 function resetForm(f: FormInstance | undefined): void {
   if (f) {
     f.resetFields(["amount", "categoryId", "accountId", "name", "description"])
+  }
+}
+
+function maybeParseFloat(value: string): void {
+  const d = Number(value)
+  if (!isNaN(d)) {
+    item.value.amount = d
   }
 }
 </script>
