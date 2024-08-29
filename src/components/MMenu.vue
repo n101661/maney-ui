@@ -1,36 +1,36 @@
 <template>
-  <el-menu>
-    <el-menu-item>
-      <el-icon class="menu-icon-wrapper"><House class="icon" /></el-icon>
+  <ElMenu>
+    <ElMenuItem>
+      <ElIcon class="menu-icon-wrapper"><House class="icon" /></ElIcon>
       <template #title>
         <span>Home</span>
       </template>
-    </el-menu-item>
-    <el-menu-item>
-      <el-icon class="menu-icon-wrapper"><Coin class="icon" /></el-icon>
+    </ElMenuItem>
+    <ElMenuItem>
+      <ElIcon class="menu-icon-wrapper"><Coin class="icon" /></ElIcon>
       <template #title>
         <span>Accounts</span>
       </template>
-    </el-menu-item>
-    <el-menu-item>
-      <el-icon class="menu-icon-wrapper"><Grid class="icon" /></el-icon>
+    </ElMenuItem>
+    <ElMenuItem>
+      <ElIcon class="menu-icon-wrapper"><Grid class="icon" /></ElIcon>
       <template #title>
         <span>Categories</span>
       </template>
-    </el-menu-item>
-    <el-menu-item>
-      <el-icon class="menu-icon-wrapper"><Histogram class="icon" /></el-icon>
+    </ElMenuItem>
+    <ElMenuItem>
+      <ElIcon class="menu-icon-wrapper"><Histogram class="icon" /></ElIcon>
       <template #title>
         <span>Reports</span>
       </template>
-    </el-menu-item>
-    <el-menu-item>
-      <el-icon class="menu-icon-wrapper"><Timer class="icon" /></el-icon>
+    </ElMenuItem>
+    <ElMenuItem>
+      <ElIcon class="menu-icon-wrapper"><Timer class="icon" /></ElIcon>
       <template #title>
         <span>Routines</span>
       </template>
-    </el-menu-item>
-  </el-menu>
+    </ElMenuItem>
+  </ElMenu>
 </template>
 
 <script setup lang="ts">

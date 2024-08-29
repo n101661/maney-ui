@@ -1,71 +1,68 @@
 <template>
-  <el-dialog v-model="modelValue" :width="width">
-    <el-form
+  <ElDialog v-model="modelValue" :width="width">
+    <ElForm
       ref="formInstance"
       :model="item"
       label-width="auto"
       :rules="rules"
       status-icon
     >
-      <el-form-item label="Date" prop="date">
-        <el-date-picker
+      <ElFormItem label="Date" prop="date">
+        <ElDatePicker
           v-model="item.date"
           type="date"
           :editable="false"
           :clearable="false"
         />
-      </el-form-item>
-      <el-form-item label="Amount" prop="amount" inputmode="decimal">
-        <el-input v-model="item.amount" clearable @change="maybeParseFloat" />
-      </el-form-item>
-      <el-form-item label="Category" prop="categoryId">
-        <el-select
+      </ElFormItem>
+      <ElFormItem label="Amount" prop="amount" inputmode="decimal">
+        <ElInput v-model="item.amount" clearable @change="maybeParseFloat" />
+      </ElFormItem>
+      <ElFormItem label="Category" prop="categoryId">
+        <ElSelect
           v-model="item.categoryId"
           :empty-values="[0, null, undefined]"
         >
-          <el-option
+          <ElOption
             v-for="(val, index) in ['Food', 'Groceries', 'Others']"
             :label="val"
             :value="index + 1"
             :key="index"
           />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Account" prop="accountId">
-        <el-select
-          v-model="item.accountId"
-          :empty-values="[0, null, undefined]"
-        >
-          <el-option
+        </ElSelect>
+      </ElFormItem>
+      <ElFormItem label="Account" prop="accountId">
+        <ElSelect v-model="item.accountId" :empty-values="[0, null, undefined]">
+          <ElOption
             v-for="(val, index) in ['Cash', 'Bank-A']"
             :label="val"
             :value="index + 1"
             :key="index"
           />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Name" prop="name">
-        <el-input v-model="item.name" clearable />
-      </el-form-item>
-      <el-form-item label="Description" prop="description">
-        <el-input v-model="item.description" type="textarea" />
-      </el-form-item>
-    </el-form>
+        </ElSelect>
+      </ElFormItem>
+      <ElFormItem label="Name" prop="name">
+        <ElInput v-model="item.name" clearable />
+      </ElFormItem>
+      <ElFormItem label="Description" prop="description">
+        <ElInput v-model="item.description" type="textarea" />
+      </ElFormItem>
+    </ElForm>
 
     <template #footer>
       <div style="text-align: center">
-        <el-button type="primary" @click="handleSave(formInstance)">
+        <ElButton type="primary" @click="handleSave(formInstance)">
           {{ saveText }}
-        </el-button>
-        <el-button type="primary" @click="handleSaveAndContinue(formInstance)">
+        </ElButton>
+        <ElButton type="primary" @click="handleSaveAndContinue(formInstance)">
           {{ saveAndContinueText }}
-        </el-button>
-        <el-button type="warning" @click="handleCancel">
+        </ElButton>
+        <ElButton type="warning" @click="handleCancel">
           {{ cancelText }}
-        </el-button>
+        </ElButton>
       </div>
     </template>
-  </el-dialog>
+  </ElDialog>
 </template>
 
 <script setup lang="ts">

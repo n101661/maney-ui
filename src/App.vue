@@ -36,40 +36,44 @@ async function refreshList(date: Date): Promise<void> {
 </script>
 
 <template>
-  <el-container style="height: 100vh">
-    <el-header height="64px">
+  <ElContainer style="height: 100vh">
+    <ElHeader height="64px">
       <div class="logo">
         <a href="#">
           <img height="48px" src="./images/logo.svg" alt="Maney Logo" />
         </a>
       </div>
-      <user-state />
-    </el-header>
-    <el-container style="height: calc(100vh - 64px)">
-      <el-aside width="200px">
-        <el-scrollbar>
-          <m-menu></m-menu>
-        </el-scrollbar>
-      </el-aside>
-      <el-main>
+      <UserState />
+    </ElHeader>
+    <ElContainer style="height: calc(100vh - 64px)">
+      <ElAside width="200px">
+        <ElScrollbar>
+          <MMenu />
+        </ElScrollbar>
+      </ElAside>
+      <ElMain>
         <div class="main-header">
-          <el-date-picker
+          <ElDatePicker
             v-model="currentDate"
             type="date"
             placeholder="yyyy-mm-dd"
-          ></el-date-picker>
-          <el-button :icon="Plus" @click="showDialog">Add</el-button>
+          ></ElDatePicker>
+          <ElButton :icon="Plus" @click="showDialog">Add</ElButton>
         </div>
         <div class="item-list">
-          <el-scrollbar>
-            <m-draggable-list v-model="items"></m-draggable-list>
-          </el-scrollbar>
+          <ElScrollbar>
+            <MDraggableList v-model="items" />
+          </ElScrollbar>
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
+      </ElMain>
+    </ElContainer>
+  </ElContainer>
 
-  <m-item-dialog v-model="dialogVisibility" :date="currentDate" @submit="submitForm" />
+  <MItemDialog
+    v-model="dialogVisibility"
+    :date="currentDate"
+    @submit="submitForm"
+  />
 </template>
 
 <style scoped>

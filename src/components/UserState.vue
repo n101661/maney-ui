@@ -4,8 +4,8 @@ import { Avatar } from "@element-plus/icons-vue"
 
 <template>
   <div class="user-state">
-    <el-link :underline="false">Register Account?</el-link>
-    <el-button :icon="Avatar" circle size="large" />
+    <ElLink :underline="false">Register Account?</ElLink>
+    <ElButton :icon="Avatar" circle size="large" />
   </div>
 </template>
 

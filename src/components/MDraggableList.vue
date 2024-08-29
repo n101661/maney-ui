@@ -1,5 +1,5 @@
 <template>
-  <draggable-component
+  <draggableComponent
     tag="table"
     style="width: 100%; border-spacing: 0"
     v-model="items"
@@ -18,10 +18,12 @@
       <tr>
         <td class="cell">
           <div style="display: flex; align-items: center; gap: 8px">
-            <el-icon class="drag-handler icon-wrapper"
-              ><DCaret class="icon"
-            /></el-icon>
-            <el-icon class="icon-wrapper"><Picture class="icon" /></el-icon>
+            <ElIcon class="drag-handler icon-wrapper">
+              <DCaret class="icon" />
+            </ElIcon>
+            <ElIcon class="icon-wrapper">
+              <Picture class="icon" />
+            </ElIcon>
           </div>
         </td>
         <td class="cell">
@@ -31,7 +33,7 @@
         <td class="cell">$ {{ element.amount }}</td>
       </tr>
     </template>
-  </draggable-component>
+  </draggableComponent>
 </template>
 
 <script setup lang="ts">
