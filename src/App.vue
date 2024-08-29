@@ -69,7 +69,7 @@ async function refreshList(date: Date): Promise<void> {
     </el-container>
   </el-container>
 
-  <m-item-dialog v-model="dialogVisibility" @submit="submitForm" />
+  <m-item-dialog v-model="dialogVisibility" :date="currentDate" @submit="submitForm" />
 </template>
 
 <style scoped>

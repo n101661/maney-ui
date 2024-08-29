@@ -71,7 +71,7 @@
 <script setup lang="ts">
 import { FormInstance, FormRules } from "element-plus"
 import { Item } from "../models/item"
-import { ref } from "vue"
+import { ref, watchEffect } from "vue"
 
 const modelValue = defineModel<boolean>({
   required: true,
@@ -113,8 +113,11 @@ const item = ref<Item>({
   name: "",
   description: "",
 })
-
 const formInstance = ref<FormInstance>()
+watchEffect(() => {
+  item.value.date = props.date
+})
+
 const rules: FormRules<Item> = {
   date: {
     type: "date",
