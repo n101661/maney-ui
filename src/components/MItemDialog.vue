@@ -131,8 +131,7 @@ const rules: FormRules<Item> = {
     message: "Please enter a positive amount",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = Number(value)
-      return isNaN(d) ? false : d > 0
+      return isPositiveNumber(value)
     },
   },
   categoryId: {
@@ -141,8 +140,7 @@ const rules: FormRules<Item> = {
     message: "Please select a category",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = Number(value)
-      return isNaN(d) ? false : d > 0
+      return isPositiveNumber(value)
     },
   },
   accountId: {
@@ -151,8 +149,7 @@ const rules: FormRules<Item> = {
     message: "Please select an account",
     trigger: "change",
     validator: function (_rule, value): boolean {
-      const d = Number(value)
-      return isNaN(d) ? false : d > 0
+      return isPositiveNumber(value)
     },
   },
 }
@@ -188,6 +185,11 @@ function resetForm(f: FormInstance | undefined): void {
   if (f) {
     f.resetFields(["amount", "categoryId", "accountId", "name", "description"])
   }
+}
+
+function isPositiveNumber(s: string): boolean {
+  const d = Number(s)
+  return isNaN(d) ? false : d > 0
 }
 
 function maybeParseFloat(value: string): void {
