@@ -1,39 +1,44 @@
 <template>
-  <draggableComponent
-    tag="table"
-    style="width: 100%; border-spacing: 0"
-    v-model="items"
-    handle=".drag-handler"
-    :animation="props.animation"
-    item-key="id"
-  >
-    <template #header>
-      <colgroup>
-        <col width="50px" />
-        <col width="calc((100% - 50px) / 2)" />
-        <col />
-      </colgroup>
-    </template>
-    <template #item="{ element }">
-      <tr>
-        <td class="cell">
-          <div style="display: flex; align-items: center; gap: 8px">
-            <ElIcon class="drag-handler icon-wrapper">
-              <DCaret class="icon" />
-            </ElIcon>
-            <ElIcon class="icon-wrapper">
-              <Picture class="icon" />
-            </ElIcon>
-          </div>
-        </td>
-        <td class="cell">
-          <div>{{ element.name }}</div>
-          <div style="color: gray">{{ element.description }}</div>
-        </td>
-        <td class="cell">$ {{ element.amount }}</td>
-      </tr>
-    </template>
-  </draggableComponent>
+  <div v-if="items.length > 0">
+    <draggableComponent
+      tag="table"
+      style="width: 100%; border-spacing: 0"
+      v-model="items"
+      handle=".drag-handler"
+      :animation="props.animation"
+      item-key="id"
+    >
+      <template #header>
+        <colgroup>
+          <col width="50px" />
+          <col width="calc((100% - 50px) / 2)" />
+          <col />
+        </colgroup>
+      </template>
+      <template #item="{ element }">
+        <tr>
+          <td class="cell">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <ElIcon class="drag-handler icon-wrapper">
+                <DCaret class="icon" />
+              </ElIcon>
+              <ElIcon class="icon-wrapper">
+                <Picture class="icon" />
+              </ElIcon>
+            </div>
+          </td>
+          <td class="cell">
+            <div>{{ element.name }}</div>
+            <div style="color: gray">{{ element.description }}</div>
+          </td>
+          <td class="cell">$ {{ element.amount }}</td>
+        </tr>
+      </template>
+    </draggableComponent>
+  </div>
+  <div v-else>
+    <ElEmpty />
+  </div>
 </template>
 
 <script setup lang="ts">
