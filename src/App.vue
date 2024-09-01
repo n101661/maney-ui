@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UserState from "./components/UserState.vue"
+import MLoginDialog from "./components/MLoginDialog.vue"
 import MMenu from "./components/MMenu.vue"
 import MDraggableList from "./components/MDraggableList.vue"
 import MItemDialog from "./components/MItemDialog.vue"
@@ -9,6 +10,7 @@ import { Item } from "./models/item"
 import { ref, watchEffect } from "vue"
 
 const dialogVisibility = ref(false)
+const loginDialogVisibility = ref(false)
 const currentDate = ref(new Date())
 const items = ref<Item[]>([])
 
@@ -18,6 +20,10 @@ watchEffect(async () => {
 
 function showDialog(): void {
   dialogVisibility.value = true
+}
+
+function showLoginDialog(): void {
+  loginDialogVisibility.value = true
 }
 
 async function submitForm(item: Item): Promise<void> {
@@ -43,7 +49,7 @@ async function refreshList(date: Date): Promise<void> {
           <img height="48px" src="./images/logo.svg" alt="Maney Logo" />
         </a>
       </div>
-      <UserState />
+      <UserState @showDialog="showLoginDialog" />
     </ElHeader>
     <ElContainer style="height: calc(100vh - 64px)">
       <ElAside width="200px">
@@ -74,6 +80,8 @@ async function refreshList(date: Date): Promise<void> {
     :date="currentDate"
     @submit="submitForm"
   />
+
+  <MLoginDialog v-model="loginDialogVisibility" width="425px" />
 </template>
 
 <style scoped>
