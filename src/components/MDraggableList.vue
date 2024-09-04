@@ -29,7 +29,7 @@
           </td>
           <td class="cell">
             <div>{{ element.name }}</div>
-            <div style="color: gray">{{ element.description }}</div>
+            <div style="color: gray">{{ element.memo }}</div>
           </td>
           <td class="cell">$ {{ element.amount }}</td>
         </tr>

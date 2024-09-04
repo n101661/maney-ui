@@ -44,8 +44,8 @@
       <ElFormItem label="Name" prop="name">
         <ElInput v-model="item.name" clearable />
       </ElFormItem>
-      <ElFormItem label="Description" prop="description">
-        <ElInput v-model="item.description" type="textarea" />
+      <ElFormItem label="Description" prop="memo">
+        <ElInput v-model="item.memo" type="textarea" />
       </ElFormItem>
     </ElForm>
 
@@ -108,7 +108,7 @@ const item = ref<Item>({
   categoryId: 0,
   accountId: 0,
   name: "",
-  description: "",
+  memo: "",
 })
 const formInstance = ref<FormInstance>()
 watchEffect(() => {
@@ -180,7 +180,7 @@ function handleCancel(): void {
 
 function resetForm(f: FormInstance | undefined): void {
   if (f) {
-    f.resetFields(["amount", "categoryId", "accountId", "name", "description"])
+    f.resetFields(["amount", "categoryId", "accountId", "name", "memo"])
   }
 }
 

@@ -11,7 +11,7 @@ const itemBucket = new Map<number, Item>([
       categoryId: 1,
       accountId: 1,
       name: "apple",
-      description: "this is apple item.",
+      memo: "this is apple item.",
     },
   ],
   [
@@ -23,7 +23,7 @@ const itemBucket = new Map<number, Item>([
       categoryId: 1,
       accountId: 2,
       name: "banana",
-      description: "this is banana item.",
+      memo: "this is banana item.",
     },
   ],
   [
@@ -35,7 +35,7 @@ const itemBucket = new Map<number, Item>([
       categoryId: 1,
       accountId: 1,
       name: "chocolate",
-      description: "this is chocolate item.",
+      memo: "this is chocolate item.",
     },
   ],
 ])

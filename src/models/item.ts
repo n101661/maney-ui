@@ -5,5 +5,5 @@ export interface Item {
   categoryId: number
   accountId: number
   name: string
-  description: string
+  memo: string
 }
