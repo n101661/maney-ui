@@ -17,20 +17,11 @@ defineProps({
 })
 
 const emit = defineEmits<{
-  (
-    e: "success",
-    userId: string,
-    accessToken: string,
-    refreshToken: string,
-  ): void
+  (e: "success", userId: string, accessToken: string): void
 }>()
 
-function successHandler(
-  userId: string,
-  accessToken: string,
-  refreshToken: string,
-): void {
-  emit("success", userId, accessToken, refreshToken)
+function successHandler(userId: string, accessToken: string): void {
+  emit("success", userId, accessToken)
   modelValue.value = false // Close the dialog.
 }
 </script>

@@ -1,0 +1,646 @@
+openapi: 3.0.0
+info:
+  title: maney
+  version: v0.0.1
+security:
+  - BearerAuth: []
+tags:
+  - name: Auth
+  - name: User
+  - name: Account
+  - name: Category
+  - name: Shop
+  - name: Fee
+  - name: Item
+paths:
+  /auth/refresh:
+    post:
+      summary: Refresh token
+      tags: ["Auth"]
+      operationId: RefreshAuth
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/RefreshToken"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthenticationResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /login:
+    post:
+      summary: user login
+      tags: ["Auth", "User"]
+      operationId: Login
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthenticationResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /logout:
+    post:
+      summary: user logout
+      tags: ["Auth", "User"]
+      operationId: Logout
+      parameters:
+        - $ref: "#/components/parameters/RefreshToken"
+      responses:
+        200:
+          $ref: "#/components/responses/LogoutResponse"
+  /sign-up:
+    post:
+      summary: user signs up
+      tags: ["Auth", "User"]
+      operationId: SignUp
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpRequest"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/config:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    put:
+      summary: update user config
+      tags: ["User"]
+      operationId: UpdateUserConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserConfig"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      tags: ["User"]
+      operationId: GetUserConfig
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserConfig"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/accounts:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    post:
+      summary: create an account for user
+      tags: ["Account"]
+      operationId: CreateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicAccount"
+      responses:
+        200:
+          $ref: "#/components/responses/ObjectId"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      summary: list all user's accounts
+      tags: ["Account"]
+      operationId: ListAccounts
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/accounts/{accountId}:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/Id"
+    put:
+      summary: update account
+      tags: ["Account"]
+      operationId: UpdateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicAccount"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    delete:
+      summary: delete account
+      tags: ["Account"]
+      operationId: DeleteAccount
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/categories:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    post:
+      summary: create category
+      tags: ["Category"]
+      operationId: CreateCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatingCategory"
+      responses:
+        200:
+          $ref: "#/components/responses/ObjectId"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      summary: list all user's categories
+      tags: ["Category"]
+      operationId: ListCategories
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: "#/components/schemas/CategoryType"
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/categories/{categoryId}:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+      - name: categoryId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/Id"
+    put:
+      summary: update category
+      tags: ["Category"]
+      operationId: UpdateCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicCategory"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    delete:
+      summary: delete category
+      tags: ["Category"]
+      operationId: DeleteCategory
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/shops:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    post:
+      tags: ["Shop"]
+      operationId: CreateShop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicShop"
+      responses:
+        200:
+          $ref: "#/components/responses/ObjectId"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      summary: list all user's shops
+      tags: ["Shop"]
+      operationId: ListShops
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Shop"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/shops/{shopId}:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+      - name: shopId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/Id"
+    put:
+      tags: ["Shop"]
+      operationId: UpdateShop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicShop"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    delete:
+      tags: ["Shop"]
+      operationId: DeleteShop
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/fees:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    post:
+      tags: ["Fee"]
+      operationId: CreateFee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicFee"
+      responses:
+        200:
+          $ref: "#/components/responses/ObjectId"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      summary: list all user's fees
+      tags: ["Fee"]
+      operationId: ListFees
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Fee"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/fees/{feeId}:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+      - name: feeId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/Id"
+    put:
+      tags: ["Fee"]
+      operationId: UpdateFee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicFee"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    delete:
+      tags: ["Fee"]
+      operationId: DeleteFee
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/daily-items:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+    post:
+      tags: ["Item"]
+      operationId: CreateDailyItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicDailyItem"
+      responses:
+        200:
+          $ref: "#/components/responses/ObjectId"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    get:
+      tags: ["Item"]
+      operationId: ListDailyItems
+      parameters:
+        - name: date
+          in: query
+          description: today is in default
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DailyItem"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+  /users/{userId}/daily-items/{dailyItemId}:
+    parameters:
+      - $ref: "#/components/parameters/UserId"
+      - name: dailyItemId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/Id"
+    put:
+      tags: ["Item"]
+      operationId: UpdateDailyItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicDailyItem"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+    delete:
+      tags: ["Item"]
+      operationId: DeleteDailyItem
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/EmptyResponse"
+components:
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      type: http
+      bearerFormat: jwt
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+    RefreshToken:
+      name: refreshToken
+      in: cookie
+      schema:
+        type: string
+  schemas:
+    Decimal:
+      type: string
+      format: float64
+      example: 0.0
+      description: a string represented as a float64
+    UserConfig:
+      type: object
+      properties:
+        compareItemsInDifferentShop:
+          type: boolean
+        compareItemsInSameShop:
+          type: boolean
+    Id:
+      type: string
+      format: uint64
+      example: 0
+    ObjectId:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+    BasicAccount:
+      type: object
+      properties:
+        name:
+          type: string
+          description: account name
+        iconId:
+          $ref: "#/components/schemas/Id"
+        initialBalance:
+          $ref: "#/components/schemas/Decimal"
+      required:
+        - name
+    Account:
+      allOf:
+        - $ref: "#/components/schemas/ObjectId"
+        - $ref: "#/components/schemas/BasicAccount"
+        - type: object
+          properties:
+            balance:
+              $ref: "#/components/schemas/Decimal"
+    CategoryType:
+      type: string
+      enum: ["expense", "income"]
+    CreatingCategory:
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/CategoryType"
+        name:
+          type: string
+        iconId:
+          $ref: "#/components/schemas/Id"
+          description: icon id
+      required:
+        - type
+        - name
+    BasicCategory:
+      type: object
+      properties:
+        name:
+          type: string
+        iconId:
+          $ref: "#/components/schemas/Id"
+          description: icon id
+      required:
+        - name
+    Category:
+      allOf:
+        - $ref: "#/components/schemas/ObjectId"
+        - $ref: "#/components/schemas/BasicCategory"
+    BasicShop:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+      required:
+        - name
+    Shop:
+      allOf:
+        - $ref: "#/components/schemas/ObjectId"
+        - $ref: "#/components/schemas/BasicShop"
+    BasicFee:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          oneOf:
+            - type: object
+              properties:
+                rate:
+                  $ref: "#/components/schemas/Decimal"
+            - type: object
+              properties:
+                fixed:
+                  $ref: "#/components/schemas/Decimal"
+      required:
+        - name
+        - value
+    Fee:
+      allOf:
+        - $ref: "#/components/schemas/ObjectId"
+        - $ref: "#/components/schemas/BasicFee"
+    BasicItem:
+      type: object
+      properties:
+        name:
+          type: string
+        categoryIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Id"
+          minLength: 1
+        shopId:
+          $ref: "#/components/schemas/Id"
+        quantity:
+          type: object
+          properties:
+            value:
+              $ref: "#/components/schemas/Decimal"
+        fee:
+          $ref: "#/components/schemas/Decimal"
+        price:
+          $ref: "#/components/schemas/Decimal"
+        memo:
+          type: string
+      required:
+        - name
+        - categoryIds
+        - price
+    BasicDailyItem:
+      allOf:
+        - type: object
+          properties:
+            date:
+              type: string
+              format: date
+          required:
+            - date
+        - $ref: "#/components/schemas/BasicItem"
+    DailyItem:
+      allOf:
+        - $ref: "#/components/schemas/ObjectId"
+        - $ref: "#/components/schemas/BasicDailyItem"
+    EmptyRequest:
+      type: object
+    LoginRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - password
+    SignUpRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - password
+        - name
+  responses:
+    EmptyResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+    ObjectId:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ObjectId"
+    AuthenticationResponse:
+      headers:
+        Set-Cookie:
+          description: "set refreshToken to secure and HTTP only cookie and path for '/auth/refresh'"
+          schema:
+            type: string
+          example: "refreshToken=<value>; Expires=<date> HttpOnly; Path=/auth/refresh; Secure; SameSite="
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accessToken:
+                type: string
+            required:
+              - accessToken
+      description: ""
+    LogoutResponse:
+      headers:
+        Set-Cookie:
+          description: "delete refreshToken cookie"
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: object
+      description: ""

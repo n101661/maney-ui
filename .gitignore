@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated files
+src/client
+
+# Environment files
+.env
+.env.*

@@ -8,16 +8,19 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "format": "prettier -w --config=.prettierrc.json index.html src",
-    "typechecking": "vue-tsc --noEmit --project tsconfig.app.json"
+    "typechecking": "vue-tsc --noEmit --project tsconfig.app.json",
+    "gen-openapi": "openapi-ts -i openapi.yaml -o src/client -c @hey-api/client-axios"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@hey-api/client-axios": "^0.2.3",
     "element-plus": "^2.8.1",
     "pinia": "^2.2.2",
     "vue": "^3.4.37",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.53.0",
     "@vitejs/plugin-vue": "^5.1.2",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",

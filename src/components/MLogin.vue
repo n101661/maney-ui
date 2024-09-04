@@ -44,9 +44,9 @@
 
 <script setup lang="ts">
 import { FormInstance, FormRules, InputInstance } from "element-plus"
-import { login as loginAPI } from "../client/mock"
 import { nextTick, onMounted, ref } from "vue"
 import { useAuthStore } from "../stores/auth"
+import { login as loginAPI } from "../client/services.gen"
 
 const formRef = ref<FormInstance>()
 const userRef = ref<InputInstance>()
@@ -58,12 +58,7 @@ const user = ref({
 const loading = ref(false)
 
 const emit = defineEmits<{
-  (
-    e: "success",
-    userId: string,
-    accessToken: string,
-    refreshToken: string,
-  ): void
+  (e: "success", userId: string, accessToken: string): void
 }>()
 
 const auth = useAuthStore()
@@ -115,11 +110,20 @@ async function login(f: FormInstance | undefined): Promise<void> {
     const result = await f.validate(() => {})
     if (!result) return
 
-    const resp = await loginAPI(user.value.name, user.value.password)
+    const resp = await loginAPI({
+      body: {
+        id: user.value.name,
+        password: user.value.password,
+      },
+    })
 
-    auth.login(user.value.name, resp.accessToken, resp.refreshToken)
+    if (resp.status === 200 && resp.data) {
+      auth.login(user.value.name, resp.data.accessToken)
 
-    emit("success", user.value.name, resp.accessToken, resp.refreshToken)
+      emit("success", user.value.name, resp.data.accessToken)
+    } else {
+      ElMessage.error("Internal server error")
+    }
   } catch (e) {
     ElMessage.error("Invalid username or password")
   } finally {
