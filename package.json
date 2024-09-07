@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "format": "prettier -w --config=.prettierrc.json index.html src",
     "typechecking": "vue-tsc --noEmit --project tsconfig.app.json",
-    "gen-openapi": "openapi-ts -i openapi.yaml -o src/client -c @hey-api/client-axios"
+    "gen-openapi": "openapi-ts -i openapi.yaml -o src/client -c @hey-api/client-axios",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -22,11 +24,15 @@
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.53.0",
     "@vitejs/plugin-vue": "^5.1.2",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^15.7.3",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",
     "unplugin-auto-import": "^0.18.2",
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.1",
+    "vitest": "^2.0.5",
     "vue-tsc": "^2.0.29"
   },
   "engines": {

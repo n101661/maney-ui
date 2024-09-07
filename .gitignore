@@ -29,3 +29,6 @@ src/client
 # Environment files
 .env
 .env.*
+
+# Test coverage files
+coverage
