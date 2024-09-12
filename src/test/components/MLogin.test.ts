@@ -37,15 +37,9 @@ test("login successful", async () => {
     },
   })
 
-  const elInputs = wrapper.findAllComponents({ name: "ElInput" })
-  const userId = elInputs[0]
-  const password = elInputs[1]
-
-  const submitButton = wrapper.findComponent({ name: "ElButton" })
-
-  await userId.find("input").setValue("my-id")
-  await password.find("input").setValue("my-password")
-  await submitButton.trigger("click")
+  await wrapper.get('[data-test="username"]').setValue("my-id")
+  await wrapper.get('[data-test="password"]').setValue("my-password")
+  await wrapper.get('[data-test="submitButton"]').trigger("click")
 
   await wrapper.vm.$nextTick()
   await promiseDone()

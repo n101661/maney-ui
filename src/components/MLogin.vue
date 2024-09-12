@@ -7,6 +7,7 @@
       <ElForm ref="formRef" :model="user" :rules="rules">
         <ElFormItem prop="name">
           <ElInput
+            data-test="username"
             ref="userRef"
             v-model="user.name"
             placeholder="Username"
@@ -15,6 +16,7 @@
         </ElFormItem>
         <ElFormItem prop="password">
           <ElInput
+            data-test="password"
             ref="passwordRef"
             v-model="user.password"
             type="password"
@@ -24,6 +26,7 @@
         </ElFormItem>
         <ElFormItem>
           <ElButton
+            data-test="submitButton"
             color="#333"
             style="width: -webkit-fill-available"
             :loading="loading"
