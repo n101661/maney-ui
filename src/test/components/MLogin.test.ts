@@ -1,60 +1,66 @@
-import { test, vi, expect } from "vitest"
+import { afterEach, describe, test, vi, expect } from "vitest"
 import { AxiosHeaders } from "axios"
 import { mount } from "@vue/test-utils"
 import { setActivePinia, createPinia } from "pinia"
 import ElementPlus, { ElMessage } from "element-plus"
-import MLogin from "../../components/MLogin.vue"
 import { useAuthStore } from "../../stores/auth"
 
-vi.mock(import("../../client/services.gen"), async (importOriginal) => {
-  const mod = await importOriginal()
-  return {
-    ...mod,
-    login: vi.fn(mod.login).mockResolvedValue({
-      data: {
-        accessToken: "my-access-token",
-      },
-      status: 200,
-      statusText: "",
-      headers: {},
-      config: {
-        headers: new AxiosHeaders(),
-      },
-      error: undefined,
-    }),
-  }
+afterEach(() => {
+  vi.resetModules()
 })
 
-test("login successful", async () => {
-  const pinia = setActivePinia(createPinia())
+describe("login successful", () => {
+  test("press submit button", async () => {
+    const accessToken = "test-accessToken"
+    const userId = "test-userId"
 
-  const wrapper = mount(MLogin, {
-    global: {
-      plugins: [ElementPlus, pinia],
-      components: {
-        ElMessage: ElMessage,
+    vi.doMock(import("../../client/services.gen"), async (importOriginal) => {
+      const mod = await importOriginal()
+      return {
+        ...mod,
+        login: vi.fn(mod.login).mockResolvedValue({
+          data: {
+            accessToken: accessToken,
+          },
+          status: 200,
+          statusText: "",
+          headers: {},
+          config: {
+            headers: new AxiosHeaders(),
+          },
+          error: undefined,
+        }),
+      }
+    })
+
+    const pinia = setActivePinia(createPinia())
+
+    const MLogin = (await import("../../components/MLogin.vue"))["default"]
+    const wrapper = mount(MLogin, {
+      global: {
+        plugins: [ElementPlus, pinia],
+        components: {
+          ElMessage: ElMessage,
+        },
       },
-    },
+    })
+
+    await wrapper.get('[data-test="username"]').setValue(userId)
+    await wrapper.get('[data-test="password"]').setValue("my-password")
+    await wrapper.get('[data-test="submitButton"]').trigger("click")
+
+    await wrapper.vm.$nextTick()
+    await promiseDone()
+
+    const successEvent = wrapper.emitted("success")
+    expect(successEvent).toBeTruthy()
+    expect(successEvent?.length).toBe(1)
+    expect(successEvent ? successEvent[0] : []).toEqual([userId, accessToken])
+
+    const authStore = useAuthStore()
+    expect(authStore.userId).toEqual(userId)
+    expect(authStore.accessToken).toEqual(accessToken)
   })
-
-  await wrapper.get('[data-test="username"]').setValue("my-id")
-  await wrapper.get('[data-test="password"]').setValue("my-password")
-  await wrapper.get('[data-test="submitButton"]').trigger("click")
-
-  await wrapper.vm.$nextTick()
-  await promiseDone()
-
-  const successEvent = wrapper.emitted("success")
-  expect(successEvent).toBeTruthy()
-  expect(successEvent?.length).toBe(1)
-  expect(successEvent ? successEvent[0] : []).toEqual([
-    "my-id",
-    "my-access-token",
-  ])
-
-  const authStore = useAuthStore()
-  expect(authStore.userId).toEqual("my-id")
-  expect(authStore.accessToken).toEqual("my-access-token")
 })
 
 function promiseDone(): Promise<void> {
