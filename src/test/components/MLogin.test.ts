@@ -4,6 +4,7 @@ import { mount } from "@vue/test-utils"
 import { setActivePinia, createPinia } from "pinia"
 import ElementPlus, { ElMessage } from "element-plus"
 import { useAuthStore } from "../../stores/auth"
+import { promiseDone } from "../utils"
 
 afterEach(() => {
   vi.resetModules()
@@ -62,7 +63,3 @@ describe("login successful", () => {
     expect(authStore.accessToken).toEqual(accessToken)
   })
 })
-
-function promiseDone(): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve))
-}
