@@ -1,10 +1,9 @@
 import { beforeAll, afterAll, describe, test, vi, expect } from "vitest"
 import { AxiosHeaders } from "axios"
-import { mount, VueWrapper } from "@vue/test-utils"
+import { mount, VueWrapper, flushPromises } from "@vue/test-utils"
 import { setActivePinia, createPinia } from "pinia"
 import ElementPlus, { ElMessage } from "element-plus"
 import { useAuthStore } from "../../stores/auth"
-import { promiseDone } from "../utils"
 
 describe("login successful", async () => {
   interface LoginSuccessCase {
@@ -69,7 +68,7 @@ describe("login successful", async () => {
       await c.act(wrapper)
 
       await wrapper.vm.$nextTick()
-      await promiseDone()
+      await flushPromises()
 
       const successEvent = wrapper.emitted("success")
       expect(successEvent).toBeTruthy()
