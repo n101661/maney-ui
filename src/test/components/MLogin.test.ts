@@ -67,7 +67,6 @@ describe("login successful", async () => {
       await wrapper.get('[data-test="password"]').setValue("my-password")
       await c.act(wrapper)
 
-      await wrapper.vm.$nextTick()
       await flushPromises()
 
       const successEvent = wrapper.emitted("success")
