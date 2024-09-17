@@ -2,7 +2,6 @@ import { beforeAll, afterAll, describe, test, vi, expect } from "vitest"
 import { AxiosHeaders, AxiosError } from "axios"
 import { mount, VueWrapper, flushPromises } from "@vue/test-utils"
 import { setActivePinia, createPinia } from "pinia"
-// import ElementPlus from "element-plus"
 import { useAuthStore } from "../../stores/auth"
 
 describe("login successful", async () => {
