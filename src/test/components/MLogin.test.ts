@@ -15,8 +15,9 @@ describe("login successful", async () => {
   const userId = "test-userId"
 
   beforeAll(() => {
-    vi.doMock(import("../../client/services.gen"), async (importOriginal) => {
-      const mod = await importOriginal()
+    vi.doMock("../../client/services.gen", async (importOriginal) => {
+      const mod =
+        await importOriginal<typeof import("../../client/services.gen")>()
       return {
         ...mod,
         login: vi.fn(mod.login).mockResolvedValue({
