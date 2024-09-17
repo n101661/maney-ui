@@ -1,8 +1,8 @@
 import { beforeAll, afterAll, describe, test, vi, expect } from "vitest"
-import { AxiosHeaders } from "axios"
+import { AxiosHeaders, AxiosError } from "axios"
 import { mount, VueWrapper, flushPromises } from "@vue/test-utils"
 import { setActivePinia, createPinia } from "pinia"
-import ElementPlus, { ElMessage } from "element-plus"
+// import ElementPlus from "element-plus"
 import { useAuthStore } from "../../stores/auth"
 
 describe("login successful", async () => {
@@ -82,16 +82,52 @@ describe("login successful", async () => {
   }
 })
 
+test("login failed", async () => {
+  const loginSpy = vi.spyOn(await import("../../client/services.gen"), "login")
+  const errorMessageSpy = vi.spyOn(
+    (await import("element-plus/es"))["ElMessage"],
+    "error",
+  )
+
+  vi.doMock("../../client/services.gen", async (importOriginal) => {
+    const mod =
+      await importOriginal<typeof import("../../client/services.gen")>()
+    return {
+      ...mod,
+      login: loginSpy.mockResolvedValue({
+        ...new AxiosError(),
+        data: undefined,
+        error: {},
+      }),
+    }
+  })
+
+  const wrapper = await newWrapper()
+
+  await wrapper.get('[data-test="username"]').setValue("my-id")
+  await wrapper.get('[data-test="password"]').setValue("my-password")
+  await wrapper.get('[data-test="submitButton"]').trigger("click")
+
+  await flushPromises()
+  await wrapper.vm.$nextTick()
+  await wrapper.vm.$nextTick()
+  await wrapper.vm.$nextTick()
+
+  expect(loginSpy).toBeCalledTimes(1)
+
+  const successEvent = wrapper.emitted("success")
+  expect(successEvent).toBeFalsy()
+
+  expect(errorMessageSpy).toBeCalledTimes(1)
+})
+
 async function newWrapper(): Promise<VueWrapper> {
   const pinia = setActivePinia(createPinia())
 
   const MLogin = (await import("../../components/MLogin.vue"))["default"]
   return mount(MLogin, {
     global: {
-      plugins: [ElementPlus, pinia],
-      components: {
-        ElMessage: ElMessage,
-      },
+      plugins: [pinia],
     },
   })
 }
