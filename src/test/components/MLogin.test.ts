@@ -108,9 +108,6 @@ test("login failed", async () => {
   await wrapper.get('[data-test="submitButton"]').trigger("click")
 
   await flushPromises()
-  await wrapper.vm.$nextTick()
-  await wrapper.vm.$nextTick()
-  await wrapper.vm.$nextTick()
 
   expect(loginSpy).toBeCalledTimes(1)
 
