@@ -115,6 +115,9 @@ test("login failed", async () => {
   expect(successEvent).toBeFalsy()
 
   expect(errorMessageSpy).toBeCalledTimes(1)
+
+  vi.resetModules()
+  vi.restoreAllMocks()
 })
 
 async function newWrapper(): Promise<VueWrapper> {
