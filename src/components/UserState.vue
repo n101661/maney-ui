@@ -27,16 +27,28 @@ function logout(): void {
 
 <template>
   <div style="align-self: center">
-    <div v-if="auth.userId === ''" class="user-state">
+    <div
+      v-if="auth.userId === ''"
+      class="user-state"
+      data-test="unauthenticated-container"
+    >
       <ElLink :underline="false">Register Account?</ElLink>
-      <ElButton :icon="Avatar" circle size="large" @click="showDialog" />
+      <ElButton
+        :icon="Avatar"
+        circle
+        size="large"
+        @click="showDialog"
+        data-test="show-dialog-button"
+      />
     </div>
-    <div v-else class="user-state">
+    <div v-else class="user-state" data-test="authenticated-container">
       <ElDropdown placement="bottom" trigger="click">
         <ElButton circle size="large">{{ auth.userId.charAt(0) }}</ElButton>
         <template #dropdown>
           <ElDropdownMenu>
-            <ElDropdownItem @click="logout">Logout</ElDropdownItem>
+            <ElDropdownItem @click="logout" data-test="logout-button">
+              Logout
+            </ElDropdownItem>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
