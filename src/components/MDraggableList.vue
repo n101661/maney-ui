@@ -16,7 +16,7 @@
         </colgroup>
       </template>
       <template #item="{ element }">
-        <tr>
+        <tr data-test="item">
           <td class="cell">
             <div style="display: flex; align-items: center; gap: 8px">
               <ElIcon class="drag-handler icon-wrapper">
