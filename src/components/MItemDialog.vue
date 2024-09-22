@@ -1,5 +1,5 @@
 <template>
-  <ElDialog v-model="modelValue" :width="width">
+  <ElDialog v-model="modelValue" :width="width" data-test="item-dialog">
     <ElForm
       ref="formInstance"
       :model="item"
@@ -7,7 +7,7 @@
       :rules="rules"
       status-icon
     >
-      <ElFormItem label="Date" prop="date">
+      <ElFormItem label="Date" prop="date" data-test="date">
         <ElDatePicker
           v-model="item.date"
           type="date"
@@ -15,10 +15,15 @@
           :clearable="false"
         />
       </ElFormItem>
-      <ElFormItem label="Amount" prop="amount" inputmode="decimal">
-        <ElInput v-model="item.amount" clearable @change="maybeParseFloat" />
+      <ElFormItem
+        label="Amount"
+        prop="amount"
+        inputmode="decimal"
+        data-test="amount"
+      >
+        <ElInput v-model.number="item.amount" clearable />
       </ElFormItem>
-      <ElFormItem label="Category" prop="categoryId">
+      <ElFormItem label="Category" prop="categoryId" data-test="category-id">
         <ElSelect
           v-model="item.categoryId"
           :empty-values="[0, null, undefined]"
@@ -28,36 +33,50 @@
             :label="val"
             :value="index + 1"
             :key="index"
+            data-test="category-option"
           />
         </ElSelect>
       </ElFormItem>
-      <ElFormItem label="Account" prop="accountId">
+      <ElFormItem label="Account" prop="accountId" data-test="account-id">
         <ElSelect v-model="item.accountId" :empty-values="[0, null, undefined]">
           <ElOption
             v-for="(val, index) in ['Cash', 'Bank-A']"
             :label="val"
             :value="index + 1"
             :key="index"
+            data-test="account-option"
           />
         </ElSelect>
       </ElFormItem>
-      <ElFormItem label="Name" prop="name">
+      <ElFormItem label="Name" prop="name" data-test="name">
         <ElInput v-model="item.name" clearable />
       </ElFormItem>
-      <ElFormItem label="Description" prop="memo">
+      <ElFormItem label="Description" prop="memo" data-test="memo">
         <ElInput v-model="item.memo" type="textarea" />
       </ElFormItem>
     </ElForm>
 
     <template #footer>
       <div style="text-align: center">
-        <ElButton type="primary" @click="handleSave(formInstance)">
+        <ElButton
+          type="primary"
+          @click="handleSave(formInstance)"
+          data-test="save-button"
+        >
           {{ saveText }}
         </ElButton>
-        <ElButton type="primary" @click="handleSaveAndContinue(formInstance)">
+        <ElButton
+          type="primary"
+          @click="handleSaveAndContinue(formInstance)"
+          data-test="save-and-continue-button"
+        >
           {{ saveAndContinueText }}
         </ElButton>
-        <ElButton type="warning" @click="handleCancel">
+        <ElButton
+          type="warning"
+          @click="handleCancel"
+          data-test="cancel-button"
+        >
           {{ cancelText }}
         </ElButton>
       </div>
@@ -81,7 +100,8 @@ const props = defineProps({
   date: {
     type: Date,
     default() {
-      return new Date()
+      const d = new Date()
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate())
     },
   },
   saveText: {
@@ -187,12 +207,5 @@ function resetForm(f: FormInstance | undefined): void {
 function isPositiveNumber(s: string): boolean {
   const d = Number(s)
   return isNaN(d) ? false : d > 0
-}
-
-function maybeParseFloat(value: string): void {
-  const d = Number(value)
-  if (!isNaN(d)) {
-    item.value.amount = d
-  }
 }
 </script>
