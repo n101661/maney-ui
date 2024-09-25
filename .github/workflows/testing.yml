@@ -1,5 +1,12 @@
 name: testing
-on: create
+on:
+  push:
+    paths:
+      - "**.ts"
+      - "**.vue"
+      - "tsconfig.vite.json"
+      - "openapi.yaml"
+      - "package.json"
 jobs:
   test:
     runs-on: ubuntu-latest
