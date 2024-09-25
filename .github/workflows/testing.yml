@@ -7,6 +7,7 @@ on:
       - "tsconfig.vite.json"
       - "openapi.yaml"
       - "package.json"
+      - ".github/workflows/*.yml"
 jobs:
   test:
     runs-on: ubuntu-latest
