@@ -1,0 +1,30 @@
+name: testing
+on:
+  push:
+    paths:
+      - "**.ts"
+      - "**.vue"
+      - "tsconfig.vite.json"
+      - "openapi.yaml"
+      - "package.json"
+      - ".github/workflows/*.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Generate requirements
+        run: npm run gen-openapi
+      - name: Check type
+        run: npm run typechecking
+      - name: Run tests
+        run: npm run test
